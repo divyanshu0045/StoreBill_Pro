@@ -68,6 +68,43 @@ lib/
 └── utils/
 ```
 
+## Deployment
+
+### Android
+
+1.  **Build the APK or App Bundle:**
+    ```bash
+    # For a release APK
+    flutter build apk --release
+
+    # For an Android App Bundle (AAB)
+    flutter build appbundle --release
+    ```
+2.  **Locate the output file:**
+    *   The APK will be located at `build/app/outputs/flutter-apk/app-release.apk`.
+    *   The App Bundle will be at `build/app/outputs/bundle/release/app-release.aab`.
+
+### iOS
+
+1.  **Build the iOS App:**
+    ```bash
+    flutter build ios --release
+    ```
+2.  **Deploy via Xcode:**
+    *   Open the `ios/Runner.xcworkspace` file in Xcode.
+    *   Configure your app signing and provisioning profiles.
+    *   Archive the app and distribute it to the App Store or for ad-hoc deployment.
+
+### Web
+
+1.  **Build the Web App:**
+    ```bash
+    flutter build web
+    ```
+2.  **Deploy the output:**
+    *   The compiled web app will be in the `build/web` directory.
+    *   Deploy the contents of this directory to your web server or hosting provider.
+
 ## Screenshots
 
 *A placeholder for screenshots of the app will be added here.*
