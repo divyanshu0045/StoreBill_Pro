@@ -42,9 +42,21 @@ StoreBill Pro+ is a comprehensive Flutter application designed for small manufac
 3. **Provide Gemini API Key**:
    This project uses the Gemini API for AI-powered features. To use these features, you'll need to provide your own API key. You can get one from [Google AI Studio](https://aistudio.google.com/).
 
-   When running the app, provide the API key as an environment variable:
+   **For Development:**
+   When running the app locally, provide the API key as an environment variable:
    ```bash
    flutter run --dart-define=GEMINI_API_KEY=YOUR_API_KEY
+   ```
+
+   **For Production (Release Builds):**
+   When building the app for release, you must also pass the `--dart-define` flag.
+   - **Android:** `flutter build appbundle --release --dart-define=GEMINI_API_KEY=YOUR_API_KEY`
+   - **iOS:** `flutter build ipa --release --dart-define=GEMINI_API_KEY=YOUR_API_KEY`
+
+   **Security Best Practice:** Do not hardcode your API key. In a CI/CD environment like GitHub Actions, store the key as a secret and reference it in your build script:
+   ```yaml
+   - name: Build App
+     run: flutter build appbundle --release --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
    ```
 4. **Run the app**:
    ```bash
