@@ -92,7 +92,6 @@ class MockBox<E> extends _i1.Mock implements _i2.Box<E> {
         Invocation.getter(#isNotEmpty),
         returnValue: false,
       ) as bool);
-  @override
   _i2.Box<E> get box => (super.noSuchMethod(
         Invocation.getter(#box),
         returnValue: _FakeBox_0<E>(
@@ -100,7 +99,6 @@ class MockBox<E> extends _i1.Mock implements _i2.Box<E> {
           Invocation.getter(#box),
         ),
       ) as _i2.Box<E>);
-  @override
   _i2.LazyBox<E> get lazyBox => (super.noSuchMethod(
         Invocation.getter(#lazyBox),
         returnValue: _FakeLazyBox_1<E>(

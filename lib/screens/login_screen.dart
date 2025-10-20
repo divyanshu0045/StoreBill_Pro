@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:storebill_pro_plus/screens/main_screen.dart';
 import 'package:storebill_pro_plus/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {

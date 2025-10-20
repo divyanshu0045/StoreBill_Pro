@@ -1,4 +1,3 @@
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:storebill_pro_plus/models/sales_model.dart';
@@ -28,7 +27,7 @@ class PdfService {
               pw.SizedBox(height: 20),
 
               // Items table
-              pw.Table.fromTextArray(
+              pw.TableHelper.fromTextArray(
                 headers: ['Product', 'Quantity', 'Price', 'Total'],
                 data: sale.items.map((item) {
                   return [

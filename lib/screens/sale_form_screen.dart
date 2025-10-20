@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:storebill_pro_plus/models/invoice_item_model.dart';
 import 'package:storebill_pro_plus/models/product_model.dart';
 import 'package:storebill_pro_plus/models/sales_model.dart';
 import 'package:storebill_pro_plus/providers/invoice_provider.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storebill_pro_plus/providers/customer_provider.dart';
-import 'package:storebill_pro_plus/screens/customer_details_screen.dart';
 
 class CustomersScreen extends StatelessWidget {
   const CustomersScreen({super.key});

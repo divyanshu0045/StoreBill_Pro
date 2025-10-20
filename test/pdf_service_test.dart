@@ -9,8 +9,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('PdfService', () {
-    const MethodChannel('net.nfet.printing')
-        .setMockMethodCallHandler((MethodCall methodCall) async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(const MethodChannel('net.nfet.printing'),
+            (MethodCall methodCall) async {
       if (methodCall.method == 'sharePdf') {
         return 1; // Return an int to satisfy the platform channel expectation
       }

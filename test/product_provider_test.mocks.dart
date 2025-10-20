@@ -7,7 +7,6 @@ import 'dart:async' as _i4;
 
 import 'package:hive/hive.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:storebill_pro_plus/models/product_model.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -88,7 +87,6 @@ class MockBox<E> extends _i1.Mock implements _i2.Box<E> {
         Invocation.getter(#isNotEmpty),
         returnValue: false,
       ) as bool);
-  @override
   _i2.Box<E> get box => (super.noSuchMethod(
         Invocation.getter(#box),
         returnValue: _FakeBox_0<E>(
@@ -96,7 +94,6 @@ class MockBox<E> extends _i1.Mock implements _i2.Box<E> {
           Invocation.getter(#box),
         ),
       ) as _i2.Box<E>);
-  @override
   _i2.LazyBox<E> get lazyBox => (super.noSuchMethod(
         Invocation.getter(#lazyBox),
         returnValue: _FakeLazyBox_1<E>(
