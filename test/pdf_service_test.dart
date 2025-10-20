@@ -35,7 +35,7 @@ void main() {
         amountPaid: 15.0,
       );
 
-      await expectLater(PdfService.generateInvoice(sale), completes);
+      await expectLater(PdfService.shareInvoice(sale), completes);
     });
   });
 }
