@@ -17,6 +17,7 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
   final _formKey = GlobalKey<FormState>();
   String _customerName = '';
   double _amountPaid = 0.0;
+  Sale? _savedSale;
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +62,22 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                 onPressed: () => _showAddProductDialog(),
                 child: const Text('Add Item'),
               ),
-              ElevatedButton(
-                onPressed: _saveForm,
-                child: const Text('Save Sale'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: _saveForm,
+                    child: const Text('Save Sale'),
+                  ),
+                  ElevatedButton(
+                    onPressed: _savedSale == null ? null : _savePdf,
+                    child: const Text('Save Invoice as PDF'),
+                  ),
+                  ElevatedButton(
+                    onPressed: _savedSale == null ? null : _sharePdf,
+                    child: const Text('Share Invoice'),
+                  ),
+                ],
               ),
             ],
           ),
@@ -87,10 +101,24 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
         amountPaid: _amountPaid,
       );
       Provider.of<SalesProvider>(context, listen: false).addSale(sale: newSale);
-      PdfService.generateInvoice(newSale);
-      invoiceProvider.clear();
-      Navigator.pop(context);
+      setState(() {
+        _savedSale = newSale;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sale saved successfully!')),
+      );
     }
+  }
+
+  void _savePdf() {
+    PdfService.saveInvoice(_savedSale!);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Invoice saved to Downloads folder.')),
+    );
+  }
+
+  void _sharePdf() {
+    PdfService.shareInvoice(_savedSale!);
   }
 
   void _showAddProductDialog() {

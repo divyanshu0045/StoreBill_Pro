@@ -1,9 +1,25 @@
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:storebill_pro_plus/models/sales_model.dart';
 
 class PdfService {
-  static Future<void> generateInvoice(Sale sale) async {
+  static Future<void> shareInvoice(Sale sale) async {
+    final pdf = await _generatePdf(sale);
+    await Printing.sharePdf(bytes: await pdf.save(), filename: 'invoice_${sale.invoiceId}.pdf');
+  }
+
+  static Future<void> saveInvoice(Sale sale) async {
+    final pdf = await _generatePdf(sale);
+    final directory = await getDownloadsDirectory();
+    final path = '${directory!.path}/invoice_${sale.invoiceId}.pdf';
+    final file = File(path);
+    await file.writeAsBytes(await pdf.save());
+  }
+
+  static Future<pw.Document> _generatePdf(Sale sale) async {
     final pdf = pw.Document();
 
     pdf.addPage(
@@ -63,6 +79,6 @@ class PdfService {
       ),
     );
 
-    await Printing.sharePdf(bytes: await pdf.save(), filename: 'invoice_${sale.invoiceId}.pdf');
+    return pdf;
   }
 }
