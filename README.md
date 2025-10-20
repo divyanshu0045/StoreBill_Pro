@@ -31,7 +31,11 @@ StoreBill Pro+ is a comprehensive Flutter application designed for small manufac
    ```bash
    git clone https://github.com/your-username/storebill_pro_plus.git
    ```
-2. **Install dependencies**:
+2. **Navigate to the project directory**:
+   ```bash
+   cd storebill_pro_plus
+   ```
+3. **Install dependencies**:
    ```bash
    flutter pub get
    ```
