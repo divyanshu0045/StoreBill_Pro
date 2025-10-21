@@ -36,7 +36,7 @@ class SalesScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SaleFormScreen()),
+            MaterialPageRoute(builder: (context) => const SaleFormScreen()),
           );
         },
         child: const Icon(Icons.add),

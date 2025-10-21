@@ -7,11 +7,13 @@ import 'package:storebill_pro_plus/providers/product_provider.dart';
 import 'package:storebill_pro_plus/providers/purchase_provider.dart';
 
 class PurchaseFormScreen extends StatefulWidget {
+  const PurchaseFormScreen({Key? key}) : super(key: key);
+
   @override
-  _PurchaseFormScreenState createState() => _PurchaseFormScreenState();
+  PurchaseFormScreenState createState() => PurchaseFormScreenState();
 }
 
-class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
+class PurchaseFormScreenState extends State<PurchaseFormScreen> {
   final _formKey = GlobalKey<FormState>();
   String _supplierName = '';
   DateTime _date = DateTime.now();

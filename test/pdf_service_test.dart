@@ -20,7 +20,7 @@ void main() {
 
     test('generateInvoice should run without errors', () async {
       final sale = Sale(
-        invoiceId: Uuid().v4(),
+        invoiceId: const Uuid().v4(),
         customerName: 'Test Customer',
         date: DateTime.now(),
         items: [

@@ -88,8 +88,8 @@ class MyApp extends StatelessWidget {
             routes: {
               '/main': (context) => const MainScreen(),
               '/login': (context) => const LoginScreen(),
-              '/purchase_form': (context) => PurchaseFormScreen(),
-              '/sale_form': (context) => SaleFormScreen(),
+              '/purchase_form': (context) => const PurchaseFormScreen(),
+              '/sale_form': (context) => const SaleFormScreen(),
               '/settings': (context) => const SettingsScreen(),
             },
           );

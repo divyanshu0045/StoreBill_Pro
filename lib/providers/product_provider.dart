@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 
 class ProductProvider with ChangeNotifier {
   late Box<Product> _productBox;
-  final _uuid = Uuid();
+  final _uuid = const Uuid();
 
   ProductProvider({Box<Product>? productBox}) {
     _productBox = productBox ?? Hive.box<Product>('products');

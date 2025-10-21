@@ -8,10 +8,10 @@ class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
 
   @override
-  _ProductsScreenState createState() => _ProductsScreenState();
+  ProductsScreenState createState() => ProductsScreenState();
 }
 
-class _ProductsScreenState extends State<ProductsScreen> {
+class ProductsScreenState extends State<ProductsScreen> {
   final _speechService = SpeechService();
   String _searchQuery = '';
 

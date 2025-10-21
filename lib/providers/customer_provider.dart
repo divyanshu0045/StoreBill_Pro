@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 
 class CustomerProvider with ChangeNotifier {
   final Box<Customer> _customerBox = Hive.box<Customer>('customers');
-  final _uuid = Uuid();
+  final _uuid = const Uuid();
 
   List<Customer> get customers => _customerBox.values.toList();
 

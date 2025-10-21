@@ -10,10 +10,10 @@ class ProductFormScreen extends StatefulWidget {
   const ProductFormScreen({super.key, this.product});
 
   @override
-  _ProductFormScreenState createState() => _ProductFormScreenState();
+  ProductFormScreenState createState() => ProductFormScreenState();
 }
 
-class _ProductFormScreenState extends State<ProductFormScreen> {
+class ProductFormScreenState extends State<ProductFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late String _name;
   late String _category;
