@@ -20,7 +20,7 @@ void main() {
       await tester.pumpWidget(
         ChangeNotifierProvider<ProductProvider>.value(
           value: mockProductProvider,
-          child: MaterialApp(
+          child: const MaterialApp(
             home: ProductFormScreen(),
           ),
         ),
@@ -41,7 +41,7 @@ void main() {
       await tester.pumpWidget(
         ChangeNotifierProvider<ProductProvider>.value(
           value: mockProductProvider,
-          child: MaterialApp(
+          child: const MaterialApp(
             home: ProductFormScreen(),
           ),
         ),

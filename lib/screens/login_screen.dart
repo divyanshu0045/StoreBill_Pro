@@ -5,10 +5,10 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   final _authService = AuthService();
   String _pin = '';
 
@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _verifyPin() async {
     final isValid = await _authService.verifyPin(_pin);
+    if (!mounted) return;
     if (isValid) {
       Navigator.pushReplacementNamed(context, '/main');
     } else {

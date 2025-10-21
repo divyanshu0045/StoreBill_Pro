@@ -9,11 +9,13 @@ import 'package:storebill_pro_plus/services/pdf_service.dart';
 import 'package:uuid/uuid.dart';
 
 class SaleFormScreen extends StatefulWidget {
+  const SaleFormScreen({Key? key}) : super(key: key);
+
   @override
-  _SaleFormScreenState createState() => _SaleFormScreenState();
+  SaleFormScreenState createState() => SaleFormScreenState();
 }
 
-class _SaleFormScreenState extends State<SaleFormScreen> {
+class SaleFormScreenState extends State<SaleFormScreen> {
   final _formKey = GlobalKey<FormState>();
   String _customerName = '';
   double _amountPaid = 0.0;
@@ -91,7 +93,7 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
       _formKey.currentState!.save();
       final invoiceProvider = Provider.of<InvoiceProvider>(context, listen: false);
       final newSale = Sale(
-        invoiceId: Uuid().v4(),
+        invoiceId: const Uuid().v4(),
         customerName: _customerName,
         date: DateTime.now(),
         items: invoiceProvider.items,

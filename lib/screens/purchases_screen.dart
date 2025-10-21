@@ -34,7 +34,7 @@ class PurchasesScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PurchaseFormScreen()),
+            MaterialPageRoute(builder: (context) => const PurchaseFormScreen()),
           );
         },
         child: const Icon(Icons.add),

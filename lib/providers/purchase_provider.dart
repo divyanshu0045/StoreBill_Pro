@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 class PurchaseProvider with ChangeNotifier {
   final Box<Purchase> _purchaseBox = Hive.box<Purchase>('purchases');
   final ProductProvider _productProvider;
-  final _uuid = Uuid();
+  final _uuid = const Uuid();
 
   PurchaseProvider(this._productProvider);
 
