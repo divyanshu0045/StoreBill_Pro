@@ -1,9 +1,11 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:storebill_pro_plus/models/customer_model.dart';
+import 'package:storebill_pro_plus/models/expense_model.dart';
 import 'package:storebill_pro_plus/models/invoice_item_model.dart';
 import 'package:storebill_pro_plus/models/product_model.dart';
 import 'package:storebill_pro_plus/models/purchase_model.dart';
 import 'package:storebill_pro_plus/models/sales_model.dart';
+import 'package:storebill_pro_plus/models/supplier_model.dart';
 
 class HiveService {
   static Future<void> init() async {
@@ -13,10 +15,14 @@ class HiveService {
     Hive.registerAdapter(SaleAdapter());
     Hive.registerAdapter(CustomerAdapter());
     Hive.registerAdapter(InvoiceItemAdapter());
+    Hive.registerAdapter(ExpenseAdapter());
+    Hive.registerAdapter(SupplierAdapter());
 
     await Hive.openBox<Product>('products');
     await Hive.openBox<Purchase>('purchases');
     await Hive.openBox<Sale>('sales');
     await Hive.openBox<Customer>('customers');
+    await Hive.openBox<Supplier>('suppliers');
+    await Hive.openBox<Expense>('expenses');
   }
 }

@@ -53,4 +53,9 @@ class CustomerProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void deleteCustomer(String id) {
+    _customerBox.delete(id);
+    notifyListeners();
+  }
 }

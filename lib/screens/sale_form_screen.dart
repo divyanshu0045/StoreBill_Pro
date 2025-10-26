@@ -5,8 +5,8 @@ import 'package:storebill_pro_plus/models/sales_model.dart';
 import 'package:storebill_pro_plus/providers/invoice_provider.dart';
 import 'package:storebill_pro_plus/providers/product_provider.dart';
 import 'package:storebill_pro_plus/providers/sales_provider.dart';
+import 'package:storebill_pro_plus/providers/store_provider.dart';
 import 'package:storebill_pro_plus/services/pdf_service.dart';
-import 'package:uuid/uuid.dart';
 
 class SaleFormScreen extends StatefulWidget {
   const SaleFormScreen({Key? key}) : super(key: key);
@@ -93,7 +93,7 @@ class SaleFormScreenState extends State<SaleFormScreen> {
       _formKey.currentState!.save();
       final invoiceProvider = Provider.of<InvoiceProvider>(context, listen: false);
       final newSale = Sale(
-        invoiceId: const Uuid().v4(),
+        invoiceId: '', // The provider will set this
         customerName: _customerName,
         date: DateTime.now(),
         items: invoiceProvider.items,
@@ -113,14 +113,16 @@ class SaleFormScreenState extends State<SaleFormScreen> {
   }
 
   void _savePdf() {
-    PdfService.saveInvoice(_savedSale!);
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    PdfService.saveInvoice(_savedSale!, storeProvider);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Invoice saved to Downloads folder.')),
     );
   }
 
   void _sharePdf() {
-    PdfService.shareInvoice(_savedSale!);
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    PdfService.shareInvoice(_savedSale!, storeProvider);
   }
 
   void _showAddProductDialog() {

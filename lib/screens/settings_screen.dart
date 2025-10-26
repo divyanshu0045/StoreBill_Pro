@@ -1,7 +1,10 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storebill_pro_plus/providers/store_provider.dart';
 import 'package:storebill_pro_plus/providers/theme_provider.dart';
 import 'package:storebill_pro_plus/services/auth_service.dart';
+import 'package:storebill_pro_plus/services/backup_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -13,15 +16,27 @@ class SettingsScreen extends StatefulWidget {
 class SettingsScreenState extends State<SettingsScreen> {
   final _authService = AuthService();
   bool _isPinEnabled = false;
+  late TextEditingController _storeNameController;
+  late TextEditingController _storeIconController;
 
   @override
   void initState() {
     super.initState();
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    _storeNameController = TextEditingController(text: storeProvider.storeName);
+    _storeIconController = TextEditingController(text: storeProvider.storeIconPath);
     _authService.hasPin().then((value) {
       setState(() {
         _isPinEnabled = value;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _storeNameController.dispose();
+    _storeIconController.dispose();
+    super.dispose();
   }
 
   void _togglePin(bool value) {
@@ -68,6 +83,15 @@ class SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  void _saveStoreInfo() {
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    storeProvider.setStoreName(_storeNameController.text);
+    storeProvider.setStoreIcon(_storeIconController.text);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Store information updated!')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +99,23 @@ class SettingsScreenState extends State<SettingsScreen> {
         title: const Text('Settings'),
       ),
       body: ListView(
+        padding: const EdgeInsets.all(16.0),
         children: [
+          TextField(
+            controller: _storeNameController,
+            decoration: const InputDecoration(labelText: 'Store Name'),
+          ),
+          const SizedBox(height: 10),
+          TextField(
+            controller: _storeIconController,
+            decoration: const InputDecoration(labelText: 'Store Icon Path'),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _saveStoreInfo,
+            child: const Text('Save Store Info'),
+          ),
+          const Divider(),
           SwitchListTile(
             title: const Text('Enable Dark Mode'),
             value: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark,
@@ -88,13 +128,28 @@ class SettingsScreenState extends State<SettingsScreen> {
             value: _isPinEnabled,
             onChanged: _togglePin,
           ),
+          const Divider(),
           ListTile(
-            title: const Text('Backup & Restore'),
-            subtitle: const Text('Coming soon'),
-            onTap: () {
+            title: const Text('Backup Data'),
+            leading: const Icon(Icons.backup),
+            onTap: () async {
+              final path = await BackupService.createBackup();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('This feature is coming soon!')),
+                SnackBar(content: Text('Backup created at $path')),
               );
+            },
+          ),
+          ListTile(
+            title: const Text('Restore Data'),
+            leading: const Icon(Icons.restore),
+            onTap: () async {
+              final result = await FilePicker.platform.pickFiles();
+              if (result != null) {
+                await BackupService.restoreBackup(result.files.single.path!);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Data restored successfully! Please restart the app.')),
+                );
+              }
             },
           ),
         ],

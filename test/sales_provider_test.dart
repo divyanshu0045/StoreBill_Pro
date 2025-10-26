@@ -22,6 +22,7 @@ void main() {
       mockSalesBox = MockBox<Sale>();
       mockProductProvider = MockProductProvider();
       mockCustomerProvider = MockCustomerProvider();
+      when(mockSalesBox.length).thenReturn(0);
       salesProvider = SalesProvider(
         salesBox: mockSalesBox,
         productProvider: mockProductProvider,
@@ -49,7 +50,7 @@ void main() {
 
       salesProvider.addSale(sale: sale);
 
-      verify(mockSalesBox.put(sale.invoiceId, sale));
+      verify(mockSalesBox.put(any, sale));
       verify(mockProductProvider.updateStock('1', -2));
       verify(mockCustomerProvider.updateCustomerDue('Test Customer', 5.0));
     });

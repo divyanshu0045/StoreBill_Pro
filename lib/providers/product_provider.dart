@@ -21,6 +21,7 @@ class ProductProvider with ChangeNotifier {
     required int stockQty,
     required String unit,
     String? description,
+    String? barcode,
   }) {
     final newProduct = Product(
       id: _uuid.v4(),
@@ -31,6 +32,7 @@ class ProductProvider with ChangeNotifier {
       stockQty: stockQty,
       unit: unit,
       description: description,
+      barcode: barcode,
     );
     _productBox.put(newProduct.id, newProduct);
     notifyListeners();

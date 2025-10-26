@@ -28,6 +28,9 @@ class Product extends HiveObject {
   @HiveField(7)
   String? description;
 
+  @HiveField(8)
+  String? barcode;
+
   Product({
     required this.id,
     required this.name,
@@ -37,5 +40,6 @@ class Product extends HiveObject {
     required this.stockQty,
     required this.unit,
     this.description,
+    this.barcode,
   });
 }
