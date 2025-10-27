@@ -134,6 +134,7 @@ class SettingsScreenState extends State<SettingsScreen> {
             leading: const Icon(Icons.backup),
             onTap: () async {
               final path = await BackupService.createBackup();
+              if (!mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Backup created at $path')),
               );
@@ -146,6 +147,7 @@ class SettingsScreenState extends State<SettingsScreen> {
               final result = await FilePicker.platform.pickFiles();
               if (result != null) {
                 await BackupService.restoreBackup(result.files.single.path!);
+                if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Data restored successfully! Please restart the app.')),
                 );

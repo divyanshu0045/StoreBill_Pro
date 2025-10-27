@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storebill_pro_plus/models/product_model.dart';
 import 'package:storebill_pro_plus/providers/product_provider.dart';
-import 'package:storebill_pro_plus/screens/product_form_screen.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
