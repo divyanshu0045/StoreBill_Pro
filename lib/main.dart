@@ -3,18 +3,23 @@ import 'package:provider/provider.dart';
 import 'package:storebill_pro_plus/models/customer_model.dart';
 import 'package:storebill_pro_plus/models/product_model.dart';
 import 'package:storebill_pro_plus/providers/customer_provider.dart';
+import 'package:storebill_pro_plus/providers/expense_provider.dart';
 import 'package:storebill_pro_plus/providers/invoice_provider.dart';
 import 'package:storebill_pro_plus/providers/product_provider.dart';
 import 'package:storebill_pro_plus/providers/purchase_provider.dart';
 import 'package:storebill_pro_plus/providers/sales_provider.dart';
+import 'package:storebill_pro_plus/providers/store_provider.dart';
+import 'package:storebill_pro_plus/providers/supplier_provider.dart';
 import 'package:storebill_pro_plus/providers/theme_provider.dart';
 import 'package:storebill_pro_plus/screens/customer_details_screen.dart';
+import 'package:storebill_pro_plus/screens/expense_screen.dart';
 import 'package:storebill_pro_plus/screens/login_screen.dart';
 import 'package:storebill_pro_plus/screens/main_screen.dart';
 import 'package:storebill_pro_plus/screens/product_form_screen.dart';
 import 'package:storebill_pro_plus/screens/purchase_form_screen.dart';
 import 'package:storebill_pro_plus/screens/sale_form_screen.dart';
 import 'package:storebill_pro_plus/screens/settings_screen.dart';
+import 'package:storebill_pro_plus/screens/supplier_screen.dart';
 import 'package:storebill_pro_plus/services/auth_service.dart';
 import 'package:storebill_pro_plus/services/hive_service.dart';
 import 'package:storebill_pro_plus/utils/theme.dart';
@@ -50,6 +55,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider(create: (_) => InvoiceProvider()),
+        ChangeNotifierProvider(create: (_) => StoreProvider()),
+        ChangeNotifierProvider(create: (_) => SupplierProvider()),
+        ChangeNotifierProvider(create: (_) => ExpenseProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
@@ -91,6 +99,8 @@ class MyApp extends StatelessWidget {
               '/purchase_form': (context) => const PurchaseFormScreen(),
               '/sale_form': (context) => const SaleFormScreen(),
               '/settings': (context) => const SettingsScreen(),
+              '/suppliers': (context) => const SupplierScreen(),
+              '/expenses': (context) => const ExpenseScreen(),
             },
           );
         },

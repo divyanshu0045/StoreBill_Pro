@@ -1,33 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'customer_model.dart';
+part of 'supplier_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CustomerAdapter extends TypeAdapter<Customer> {
+class SupplierAdapter extends TypeAdapter<Supplier> {
   @override
-  final int typeId = 3;
+  final int typeId = 6;
 
   @override
-  Customer read(BinaryReader reader) {
+  Supplier read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Customer(
+    return Supplier(
       id: fields[0] as String,
       name: fields[1] as String,
       phoneNumber: fields[2] as String?,
       email: fields[3] as String?,
       address: fields[4] as String?,
-      totalDue: fields[5] as double,
+      totalPayable: fields[5] as double,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Customer obj) {
+  void write(BinaryWriter writer, Supplier obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
@@ -41,7 +41,7 @@ class CustomerAdapter extends TypeAdapter<Customer> {
       ..writeByte(4)
       ..write(obj.address)
       ..writeByte(5)
-      ..write(obj.totalDue);
+      ..write(obj.totalPayable);
   }
 
   @override
@@ -50,7 +50,7 @@ class CustomerAdapter extends TypeAdapter<Customer> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CustomerAdapter &&
+      other is SupplierAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

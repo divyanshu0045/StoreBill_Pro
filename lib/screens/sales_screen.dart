@@ -27,6 +27,15 @@ class SalesScreen extends StatelessWidget {
                 subtitle: 'Customer: ${sale.customerName}',
                 amount: sale.totalAmount,
                 date: sale.date,
+                onSelected: (value) {
+                  if (value == 'edit') {
+                    // TODO: Implement edit sale
+                  } else if (value == 'delete') {
+                    provider.deleteSale(sale.invoiceId);
+                  } else if (value == 'export') {
+                    // TODO: Implement export sale
+                  }
+                },
               );
             },
           );

@@ -23,8 +23,38 @@ class PurchasesScreen extends StatelessWidget {
               final purchase = provider.purchases[index];
               return ListTile(
                 title: Text('Purchase from ${purchase.supplierName}'),
-                subtitle: Text('Date: ${purchase.date.toLocal()}'),
-                trailing: Text('\$${purchase.totalAmount.toStringAsFixed(2)}'),
+                subtitle: Text('Date: ${purchase.date.toLocal().toString().split(' ')[0]}'),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('\$${purchase.totalAmount.toStringAsFixed(2)}'),
+                    PopupMenuButton<String>(
+                      onSelected: (value) {
+                        if (value == 'edit') {
+                          // TODO: Implement edit purchase
+                        } else if (value == 'delete') {
+                          provider.deletePurchase(purchase.id);
+                        } else if (value == 'export') {
+                          // TODO: Implement export purchase
+                        }
+                      },
+                      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                        const PopupMenuItem<String>(
+                          value: 'edit',
+                          child: Text('Edit'),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'delete',
+                          child: Text('Delete'),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'export',
+                          child: Text('Export'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               );
             },
           );

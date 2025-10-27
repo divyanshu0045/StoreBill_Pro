@@ -22,7 +22,32 @@ class CustomersScreen extends StatelessWidget {
               final customer = provider.customers[index];
               return ListTile(
                 title: Text(customer.name),
-                trailing: Text('Due: \$${customer.totalDue.toStringAsFixed(2)}'),
+                subtitle: Text('Due: \$${customer.totalDue.toStringAsFixed(2)}'),
+                trailing: PopupMenuButton<String>(
+                  onSelected: (value) {
+                    if (value == 'edit') {
+                      // TODO: Implement edit customer
+                    } else if (value == 'delete') {
+                      provider.deleteCustomer(customer.id);
+                    } else if (value == 'export') {
+                      // TODO: Implement export customer
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'edit',
+                      child: Text('Edit'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'delete',
+                      child: Text('Delete'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'export',
+                      child: Text('Export'),
+                    ),
+                  ],
+                ),
                 onTap: () {
                   Navigator.pushNamed(context, '/customer_details',
                       arguments: customer);

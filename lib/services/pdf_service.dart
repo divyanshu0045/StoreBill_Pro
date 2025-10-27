@@ -4,22 +4,23 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:storebill_pro_plus/models/sales_model.dart';
+import 'package:storebill_pro_plus/providers/store_provider.dart';
 
 class PdfService {
-  static Future<void> shareInvoice(Sale sale) async {
-    final pdf = await _generatePdf(sale);
+  static Future<void> shareInvoice(Sale sale, StoreProvider storeProvider) async {
+    final pdf = await _generatePdf(sale, storeProvider);
     await Printing.sharePdf(bytes: await pdf.save(), filename: 'invoice_${sale.invoiceId}.pdf');
   }
 
-  static Future<void> saveInvoice(Sale sale) async {
-    final pdf = await _generatePdf(sale);
+  static Future<void> saveInvoice(Sale sale, StoreProvider storeProvider) async {
+    final pdf = await _generatePdf(sale, storeProvider);
     final directory = await getDownloadsDirectory();
     final path = '${directory!.path}/invoice_${sale.invoiceId}.pdf';
     final file = File(path);
     await file.writeAsBytes(await pdf.save());
   }
 
-  static Future<pw.Document> _generatePdf(Sale sale) async {
+  static Future<pw.Document> _generatePdf(Sale sale, StoreProvider storeProvider) async {
     final pdf = pw.Document();
 
     pdf.addPage(
@@ -32,7 +33,13 @@ class PdfService {
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
-                  pw.Text('StoreBill Pro+', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 24)),
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text(storeProvider.storeName, style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 24)),
+                      pw.Text(storeProvider.storeAddress),
+                    ],
+                  ),
                   pw.Text('Invoice', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 24)),
                 ],
               ),
@@ -73,6 +80,8 @@ class PdfService {
                   ),
                 ],
               ),
+              pw.SizedBox(height: 20),
+              pw.Text(storeProvider.storeTerms),
             ],
           );
         },

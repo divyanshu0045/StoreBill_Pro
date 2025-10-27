@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storebill_pro_plus/models/product_model.dart';
 import 'package:storebill_pro_plus/providers/product_provider.dart';
+import 'package:storebill_pro_plus/screens/barcode_scanner_screen.dart';
 import 'package:storebill_pro_plus/services/ai_service.dart';
 
 class ProductFormScreen extends StatefulWidget {
@@ -15,17 +16,16 @@ class ProductFormScreen extends StatefulWidget {
 
 class ProductFormScreenState extends State<ProductFormScreen> {
   final _formKey = GlobalKey<FormState>();
-  late String _name;
-  late String _category;
-  late double _purchasePrice;
-  late double _salePrice;
-  late int _stockQty;
-  late String _unit;
+  late String _name = '';
+  late String _category = '';
+  late double _purchasePrice = 0.0;
+  late double _salePrice = 0.0;
+  late int _stockQty = 0;
+  late String _unit = '';
   String? _description;
+  String? _barcode;
   final _descriptionController = TextEditingController();
-
-  // API key should be loaded from a secure location, e.g., environment variables
-  final _aiService = AIService(const String.fromEnvironment('GEMINI_API_KEY'));
+  final _barcodeController = TextEditingController();
 
   @override
   void initState() {
@@ -38,8 +38,17 @@ class ProductFormScreenState extends State<ProductFormScreen> {
       _stockQty = widget.product!.stockQty;
       _unit = widget.product!.unit;
       _description = widget.product!.description;
+      _barcode = widget.product!.barcode;
       _descriptionController.text = _description ?? '';
+      _barcodeController.text = _barcode ?? '';
     }
+  }
+
+  @override
+  void dispose() {
+    _descriptionController.dispose();
+    _barcodeController.dispose();
+    super.dispose();
   }
 
   void _saveForm() {
@@ -55,6 +64,7 @@ class ProductFormScreenState extends State<ProductFormScreen> {
           stockQty: _stockQty,
           unit: _unit,
           description: _description,
+          barcode: _barcode,
         );
       } else {
         final updatedProduct = Product(
@@ -66,20 +76,41 @@ class ProductFormScreenState extends State<ProductFormScreen> {
           stockQty: _stockQty,
           unit: _unit,
           description: _description,
+          barcode: _barcode,
         );
         provider.updateProduct(updatedProduct);
       }
-      Navigator.pop(context);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
     }
   }
 
   void _suggestDescription() async {
-    _formKey.currentState!.save();
-    final description = await _aiService.suggestDescription(_name, _category);
-    setState(() {
-      _description = description;
-      _descriptionController.text = description;
-    });
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      // Use the AIService from the provider context (mocked in tests)
+      final aiService = Provider.of<AIService>(context, listen: false);
+      final description = await aiService.suggestDescription(_name, _category);
+      setState(() {
+        _description = description;
+        _descriptionController.text = description;
+      });
+    }
+  }
+
+  Future<void> _scanBarcode() async {
+    final barcodeValue = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (context) => const BarcodeScannerScreen()),
+    );
+
+    if (barcodeValue != null) {
+      setState(() {
+        _barcode = barcodeValue;
+        _barcodeController.text = barcodeValue;
+      });
+    }
   }
 
   @override
@@ -95,55 +126,86 @@ class ProductFormScreenState extends State<ProductFormScreen> {
           child: ListView(
             children: [
               TextFormField(
-                initialValue: widget.product?.name,
+                key: const Key('product_name_field'),
+                initialValue: widget.product?.name ?? '',
                 decoration: const InputDecoration(labelText: 'Name'),
-                validator: (value) => value!.isEmpty ? 'Please enter a name' : null,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a name' : null,
                 onSaved: (value) => _name = value!,
               ),
               TextFormField(
-                initialValue: widget.product?.category,
+                key: const Key('product_category_field'),
+                initialValue: widget.product?.category ?? '',
                 decoration: const InputDecoration(labelText: 'Category'),
-                validator: (value) => value!.isEmpty ? 'Please enter a category' : null,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a category' : null,
                 onSaved: (value) => _category = value!,
               ),
               TextFormField(
-                initialValue: widget.product?.purchasePrice.toString(),
-                decoration: const InputDecoration(labelText: 'Purchase Price'),
+                key: const Key('product_purchase_price_field'),
+                initialValue:
+                    widget.product?.purchasePrice.toString() ?? '',
+                decoration:
+                    const InputDecoration(labelText: 'Purchase Price'),
                 keyboardType: TextInputType.number,
-                validator: (value) => value!.isEmpty ? 'Please enter a price' : null,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a price' : null,
                 onSaved: (value) => _purchasePrice = double.parse(value!),
               ),
               TextFormField(
-                initialValue: widget.product?.salePrice.toString(),
+                key: const Key('product_sale_price_field'),
+                initialValue: widget.product?.salePrice.toString() ?? '',
                 decoration: const InputDecoration(labelText: 'Sale Price'),
                 keyboardType: TextInputType.number,
-                validator: (value) => value!.isEmpty ? 'Please enter a price' : null,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a price' : null,
                 onSaved: (value) => _salePrice = double.parse(value!),
               ),
               TextFormField(
-                initialValue: widget.product?.stockQty.toString(),
-                decoration: const InputDecoration(labelText: 'Stock Quantity'),
+                key: const Key('product_stock_qty_field'),
+                initialValue: widget.product?.stockQty.toString() ?? '',
+                decoration:
+                    const InputDecoration(labelText: 'Stock Quantity'),
                 keyboardType: TextInputType.number,
-                validator: (value) => value!.isEmpty ? 'Please enter a quantity' : null,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a quantity' : null,
                 onSaved: (value) => _stockQty = int.parse(value!),
               ),
               TextFormField(
-                initialValue: widget.product?.unit,
-                decoration: const InputDecoration(labelText: 'Unit (e.g., kg, pcs)'),
-                validator: (value) => value!.isEmpty ? 'Please enter a unit' : null,
+                key: const Key('product_unit_field'),
+                initialValue: widget.product?.unit ?? '',
+                decoration: const InputDecoration(
+                    labelText: 'Unit (e.g., kg, pcs)'),
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a unit' : null,
                 onSaved: (value) => _unit = value!,
               ),
               TextFormField(
+                key: const Key('product_description_field'),
                 controller: _descriptionController,
                 decoration: const InputDecoration(labelText: 'Description'),
                 onSaved: (value) => _description = value,
               ),
+              TextFormField(
+                key: const Key('product_barcode_field'),
+                controller: _barcodeController,
+                decoration: const InputDecoration(labelText: 'Barcode'),
+                onSaved: (value) => _barcode = value,
+              ),
+              const SizedBox(height: 12),
               ElevatedButton(
+                key: const Key('scan_barcode_button'),
+                onPressed: _scanBarcode,
+                child: const Text('Scan Barcode'),
+              ),
+              ElevatedButton(
+                key: const Key('suggest_description_button'),
                 onPressed: _suggestDescription,
                 child: const Text('Suggest Description'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                key: const Key('save_product_button'),
                 onPressed: _saveForm,
                 child: const Text('Save Product'),
               ),

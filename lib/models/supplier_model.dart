@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'customer_model.g.dart';
+part 'supplier_model.g.dart';
 
-@HiveType(typeId: 3)
-class Customer extends HiveObject {
+@HiveType(typeId: 6)
+class Supplier extends HiveObject {
   @HiveField(0)
   String id;
 
@@ -20,14 +20,14 @@ class Customer extends HiveObject {
   String? address;
 
   @HiveField(5)
-  double totalDue;
+  double totalPayable;
 
-  Customer({
+  Supplier({
     required this.id,
     required this.name,
     this.phoneNumber,
     this.email,
     this.address,
-    this.totalDue = 0.0,
+    this.totalPayable = 0.0,
   });
 }

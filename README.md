@@ -14,6 +14,9 @@ StoreBill Pro+ is a comprehensive Flutter application designed for small manufac
 - **Voice-Based Search**: Quickly find products by speaking their names, using the integrated speech-to-text functionality.
 - **Dark Mode**: Switch between light and dark themes for a comfortable user experience.
 - **PIN Lock**: Secure your app with an optional 4-digit PIN lock.
+- **Barcode Scanning**: Quickly add products to invoices by scanning their barcodes.
+- **Expense Tracking**: Record and manage business expenses.
+- **Backup & Restore**: Backup and restore your data to a zip file.
 
 ## Tech Stack
 
@@ -24,6 +27,7 @@ StoreBill Pro+ is a comprehensive Flutter application designed for small manufac
 - **Charts**: `fl_chart`
 - **Voice Recognition**: `speech_to_text`
 - **AI Integration**: `google_generative_ai` (Gemini API)
+- **Barcode**: `barcode_widget` & `mobile_scanner`
 
 ## Setup Instructions
 
@@ -39,7 +43,7 @@ StoreBill Pro+ is a comprehensive Flutter application designed for small manufac
    ```bash
    flutter pub get
    ```
-3. **Provide Gemini API Key**:
+4. **Provide Gemini API Key**:
    This project uses the Gemini API for AI-powered features. To use these features, you'll need to provide your own API key. You can get one from [Google AI Studio](https://aistudio.google.com/).
 
    **For Development:**
@@ -58,7 +62,7 @@ StoreBill Pro+ is a comprehensive Flutter application designed for small manufac
    - name: Build App
      run: flutter build appbundle --release --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
    ```
-4. **Run the app**:
+5. **Run the app**:
    ```bash
    flutter run
    ```
@@ -133,7 +137,7 @@ The AI service is designed to be modular and can be easily swapped out. The `AIS
 
 ### Backup & Restore
 
-The backup and restore feature is currently a work in progress.
+The backup and restore feature is now implemented. You can find the options in the settings screen.
 
 ### App Flow & Architecture
 
@@ -148,5 +152,7 @@ Splash Screen -> Login Screen (if PIN is set) -> Main Screen (with BottomNavigat
   - Sales -> Sale Form
   - Purchases -> Purchase Form
   - Customers -> Customer Details
+  - Suppliers -> Supplier Details
+  - Expenses -> Expense Form
   - Reports
 ```

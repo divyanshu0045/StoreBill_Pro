@@ -6,6 +6,7 @@ class TransactionCard extends StatelessWidget {
   final String subtitle;
   final double amount;
   final DateTime date;
+  final Function(String)? onSelected;
 
   const TransactionCard({
     super.key,
@@ -13,6 +14,7 @@ class TransactionCard extends StatelessWidget {
     required this.subtitle,
     required this.amount,
     required this.date,
+    this.onSelected,
   });
 
   @override
@@ -22,14 +24,38 @@ class TransactionCard extends StatelessWidget {
       child: ListTile(
         title: Text(title),
         subtitle: Text(subtitle),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '\$${amount.toStringAsFixed(2)}',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  '\$${amount.toStringAsFixed(2)}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(DateFormat.yMMMd().format(date)),
+              ],
             ),
-            Text(DateFormat.yMMMd().format(date)),
+            if (onSelected != null)
+              PopupMenuButton<String>(
+                onSelected: onSelected,
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  const PopupMenuItem<String>(
+                    value: 'edit',
+                    child: Text('Edit'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'delete',
+                    child: Text('Delete'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'export',
+                    child: Text('Export'),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

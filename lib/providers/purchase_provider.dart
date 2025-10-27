@@ -35,4 +35,15 @@ class PurchaseProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void deletePurchase(String id) {
+    final purchase = _purchaseBox.get(id);
+    if (purchase != null) {
+      for (var item in purchase.items) {
+        _productProvider.updateStock(item.productId, -item.quantity);
+      }
+      _purchaseBox.delete(id);
+      notifyListeners();
+    }
+  }
 }
